@@ -47,3 +47,4 @@ const randomPage = `<!doctype html>
 await writeFile(randomPagePath, randomPage, "utf8");
 console.log(`Wrote ${files.length} image(s) to pics/index.json`);
 console.log(`Wrote random embed page to random/index.html using: ${picked}`);
+console.log(`Wrote ${files.length} image(s) to pics/index.json`);
