@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Cat</title>
+    <meta name="robots" content="noindex" />
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: system-ui, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <p>Choosing a random cat picture…</p>
+    <script>
+      const FALLBACK = "https://cataas.com/cat";
+
+      async function redirectToRandomCat() {
+        try {
+          const response = await fetch("../pics/index.json", { cache: "no-store" });
+          if (!response.ok) throw new Error("Missing pics/index.json");
+
+          const files = await response.json();
+          if (!Array.isArray(files) || files.length === 0) throw new Error("No files");
+
+          const pick = files[Math.floor(Math.random() * files.length)];
+          const encoded = pick.split("/").map(encodeURIComponent).join("/");
+          const target = `../pics/${encoded}`;
+          window.location.replace(target);
+          return;
+        } catch {
+          window.location.replace(FALLBACK);
+        }
+      }
+
+      redirectToRandomCat();
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content="0;url=https://cataas.com/cat" />
+    </noscript>
+  </body>
+</html>
