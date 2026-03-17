@@ -1,0 +1,7 @@
+name = "lillyapi-cat-api"
+main = "worker/index.mjs"
+compatibility_date = "2026-03-17"
+
+[assets]
+directory = "./pics"
+binding = "ASSETS"

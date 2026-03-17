@@ -4,6 +4,8 @@ import path from "node:path";
 
 const repoRoot = process.cwd();
 const picsDir = path.join(repoRoot, "pics");
+const jsonOutputPath = path.join(picsDir, "index.json");
+const workerOutputPath = path.join(repoRoot, "worker", "image-list.mjs");
 const outputPath = path.join(picsDir, "index.json");
 const randomPagePath = path.join(repoRoot, "random", "index.html");
 
@@ -16,6 +18,11 @@ const files = entries
   .filter((name) => exts.has(path.extname(name).toLowerCase()))
   .sort((a, b) => a.localeCompare(b));
 
+await writeFile(jsonOutputPath, `${JSON.stringify(files, null, 2)}\n`, "utf8");
+await writeFile(workerOutputPath, `export default ${JSON.stringify(files, null, 2)};\n`, "utf8");
+
+console.log(`Wrote ${files.length} image(s) to pics/index.json`);
+console.log(`Wrote ${files.length} image(s) to worker/image-list.mjs`);
 await writeFile(outputPath, `${JSON.stringify(files, null, 2)}\n`, "utf8");
 
 const fallback = "https://cataas.com/cat";
